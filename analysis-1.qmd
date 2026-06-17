@@ -1,7 +1,53 @@
 ---
-title: "Analysis 1"
+title: "A Beautiful Graphic"
 author: "Oluchi Nnadi"
 format: html
+execute: 
+  echo: false
 ---
 
 Oluchi Nnadi is a data maestro!
+
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+```
+
+```{r}
+library(tidyverse)
+
+# 1. Create the base plot with mpg dataset
+ggplot(data = mpg, aes(x = displ, y = hwy, color = drv)) +
+  
+  # 2. Add points with some transparency (alpha) to handle overlapping data
+  geom_point(size = 3, alpha = 0.7) +
+  
+  # 3. Add a smooth trend line for each drivetrain category without the standard error ribbon
+  geom_smooth(method = "lm", se = FALSE, size = 1.2, formula = y ~ x) +
+  
+  # 4. Apply a beautiful, modern color palette (Viridis)
+  scale_color_viridis_d(option = "plasma", end = 0.8, 
+                        labels = c("4" = "4-Wheel", "f" = "Front-Wheel", "r" = "Rear-Wheel")) +
+  
+  # 5. Use a clean, minimalist background theme
+  theme_minimal(base_size = 14) +
+  
+  # 6. Customize labels and titles
+  labs(
+    title = "Engine Displacement vs. Highway Fuel Efficiency",
+    subtitle = "Front-wheel drive cars remain the most efficient as engine size grows",
+    x = "Engine Displacement (Liters)",
+    y = "Highway Miles per Gallon (MPG)",
+    color = "Drivetrain Type",
+    caption = "Data Source: EPA (mpg dataset)"
+  ) +
+  
+  # 7. Fine-tune the theme for maximum visual appeal
+  theme(
+    plot.title = element_text(face = "bold", size = 16, color = "#222222"),
+    plot.subtitle = element_text(color = "#555555", margin = margin(b = 15)),
+    plot.caption = element_text(color = "#888888", face = "italic"),
+    legend.position = "top",
+    panel.grid.minor = element_blank(), # Remove distracting minor grid lines
+    panel.grid.major = element_line(color = "#eaeaea")
+  )
+```
